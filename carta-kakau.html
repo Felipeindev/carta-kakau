@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Para a Kakau ♥</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --yellow: #FFD700;
+    --white: #E8E8E8;
+    --gray: #888;
+    --dark: #1a1a2e;
+    --darker: #0f0f1a;
+    --pink: #FF6B9D;
+    --cyan: #00FFFF;
+    --green: #00FF7F;
+    --purple: #B47AFF;
+    --red: #FF4444;
+  }
+
+  html, body {
+    background: var(--darker);
+    font-family: 'Press Start 2P', monospace;
+    color: var(--white);
+    min-height: 100vh;
+    image-rendering: pixelated;
+    overflow-x: hidden;
+  }
+
+  .ut-scene {
+    max-width: 420px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .ut-header {
+    background: var(--dark);
+    border-bottom: 4px solid var(--yellow);
+    padding: 24px 16px 18px;
+    text-align: center;
+  }
+
+  .ut-title {
+    font-size: 13px;
+    color: var(--yellow);
+    line-height: 2;
+    text-shadow: 3px 3px 0 #8B6914;
+    letter-spacing: 1px;
+  }
+
+  .ut-subtitle {
+    font-size: 7px;
+    color: var(--gray);
+    margin-top: 10px;
+    line-height: 2;
+  }
+
+  .heart-icon {
+    color: var(--red);
+    animation: heartbeat 1s steps(1) infinite;
+    display: inline-block;
+  }
+
+  @keyframes heartbeat {
+    0%, 49% { transform: scale(1); }
+    50%, 100% { transform: scale(1.3); }
+  }
+
+  .stars-bg {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    background: var(--darker);
+    overflow: hidden;
+  }
+
+  .star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--white);
+    animation: twinkle steps(1) infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0.1; }
+  }
+
+  .progress-section {
+    width: 100%;
+    padding: 12px 16px 8px;
+    background: var(--dark);
+  }
+
+  .progress-label {
+    font-size: 6px;
+    color: var(--gray);
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .progress-outer {
+    width: 100%;
+    height: 12px;
+    background: #111;
+    border: 2px solid var(--gray);
+  }
+
+  .progress-inner {
+    height: 100%;
+    background: var(--yellow);
+    transition: width 0.4s steps(6);
+    width: 0%;
+  }
+
+  .grid-section {
+    padding: 20px 12px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    flex: 1;
+  }
+
+  .env-btn {
+    background: var(--dark);
+    border: 3px solid var(--gray);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 110px;
+    position: relative;
+    transition: border-color 0.1s steps(1);
+    outline: none;
+    width: 100%;
+  }
+
+  .env-btn::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid rgba(255,255,255,0.05);
+    pointer-events: none;
+  }
+
+  .env-btn:hover, .env-btn:focus {
+    border-color: var(--yellow);
+    background: #1e1e3a;
+  }
+
+  .env-btn.opened {
+    border-color: var(--green);
+    opacity: 0.7;
+  }
+
+  .env-btn.opened .env-label { color: var(--green); }
+
+  .env-pixel-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .env-label {
+    font-size: 6px;
+    color: var(--gray);
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  .env-num {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    font-size: 7px;
+    color: var(--yellow);
+  }
+
+  .env-opened-mark {
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    font-size: 8px;
+    color: var(--green);
+    display: none;
+  }
+
+  .env-btn.opened .env-opened-mark { display: block; }
+
+  .dialog-box {
+    display: none;
+    background: var(--dark);
+    border: 4px solid var(--white);
+    margin: 0 12px 16px;
+    position: relative;
+  }
+
+  .dialog-box::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 2px solid rgba(255,255,255,0.08);
+    pointer-events: none;
+  }
+
+  .dialog-box.active { display: block; }
+
+  .dialog-header {
+    background: #111;
+    border-bottom: 2px solid var(--white);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .dialog-face { font-size: 22px; }
+
+  .dialog-name {
+    font-size: 8px;
+    color: var(--yellow);
+    text-shadow: 2px 2px 0 #8B6914;
+  }
+
+  .dialog-body {
+    padding: 16px 14px 12px;
+    min-height: 80px;
+    position: relative;
+  }
+
+  .dialog-text {
+    font-size: 8px;
+    color: var(--white);
+    line-height: 2.2;
+    min-height: 50px;
+  }
+
+  .dialog-arrow {
+    position: absolute;
+    bottom: 10px;
+    right: 14px;
+    font-size: 8px;
+    color: var(--yellow);
+    animation: bounceArrow steps(2) 0.5s infinite;
+  }
+
+  @keyframes bounceArrow {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(3px); }
+  }
+
+  .dialog-close-btn {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-top: 2px solid var(--gray);
+    padding: 12px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--gray);
+    cursor: pointer;
+    transition: background 0.1s steps(1), color 0.1s steps(1);
+  }
+
+  .dialog-close-btn:hover, .dialog-close-btn:active {
+    background: var(--yellow);
+    color: #000;
+    border-top-color: var(--yellow);
+  }
+
+  .final-section {
+    display: none;
+    padding: 0 12px 32px;
+  }
+
+  .final-section.visible { display: block; }
+
+  .pixel-divider {
+    width: 100%;
+    height: 4px;
+    background: repeating-linear-gradient(90deg, var(--yellow) 0px, var(--yellow) 8px, transparent 8px, transparent 16px);
+    margin: 8px 0 16px;
+  }
+
+  .final-box {
+    background: var(--dark);
+    border: 4px solid var(--yellow);
+    padding: 24px 16px;
+    text-align: center;
+    position: relative;
+  }
+
+  .final-box::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 2px solid rgba(255,215,0,0.15);
+    pointer-events: none;
+  }
+
+  .final-heart {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 14px;
+    animation: heartbeat 0.8s steps(1) infinite;
+  }
+
+  .final-title {
+    font-size: 10px;
+    color: var(--yellow);
+    margin-bottom: 14px;
+    line-height: 2;
+    text-shadow: 2px 2px 0 #8B6914;
+  }
+
+  .final-msg {
+    font-size: 7px;
+    color: var(--gray);
+    line-height: 2.4;
+  }
+
+  .bottom-nav {
+    background: var(--dark);
+    border-top: 4px solid var(--yellow);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .nav-item {
+    font-size: 6px;
+    color: var(--gray);
+    text-align: center;
+  }
+
+  .nav-icon { font-size: 16px; display: block; margin-bottom: 3px; }
+  .nav-item.active { color: var(--yellow); }
+</style>
+</head>
+<body>
+<div class="ut-scene" id="app">
+
+  <div class="ut-header">
+    <div class="ut-title">
+      ★ PARA A KAKAU ★<br>
+      <span class="heart-icon">♥</span> uma mensagem especial <span class="heart-icon">♥</span>
+    </div>
+    <div class="ut-subtitle">[ abra todos os envelopinhos ]</div>
+  </div>
+
+  <div class="stars-bg" id="starsBg"></div>
+
+  <div class="progress-section">
+    <div class="progress-label">
+      <span>PROGRESSO</span>
+      <span id="progressLabel">0 / 6</span>
+    </div>
+    <div class="progress-outer">
+      <div class="progress-inner" id="progressBar"></div>
+    </div>
+  </div>
+
+  <div class="grid-section">
+    <button class="env-btn" id="env0" onclick="openMsg(0)">
+      <span class="env-opened-mark">✓</span>
+      <span class="env-num">#1</span>
+      <span class="env-pixel-icon">💌</span>
+      <span class="env-label">envelopinho<br>especial</span>
+    </button>
+    <button class="env-btn" id="env1" onclick="openMsg(1)">
+      <span class="env-opened-mark">✓</span>
+      <span class="env-num">#2</span>
+      <span class="env-pixel-icon">🌌</span>
+      <span class="env-label">segredo<br>do ceu</span>
+    </button>
+    <button class="env-btn" id="env2" onclick="openMsg(2)">
+      <span class="env-opened-mark">✓</span>
+      <span class="env-num">#3</span>
+      <span class="env-pixel-icon">⭐</span>
+      <span class="env-label">curiosidade<br>secreta</span>
+    </button>
+    <button class="env-btn" id="env3" onclick="openMsg(3)">
+      <span class="env-opened-mark">✓</span>
+      <span class="env-num">#4</span>
+      <span class="env-pixel-icon">🎮</span>
+      <span class="env-label">modo<br>co-op</span>
+    </button>
+    <button class="env-btn" id="env4" onclick="openMsg(4)">
+      <span class="env-opened-mark">✓</span>
+      <span class="env-num">#5</span>
+      <span class="env-pixel-icon">🗺️</span>
+      <span class="env-label">missao<br>futura</span>
+    </button>
+    <button class="env-btn" id="env5" onclick="openMsg(5)">
+      <span class="env-opened-mark">✓</span>
+      <span class="env-num">#6</span>
+      <span class="env-pixel-icon">🌊</span>
+      <span class="env-label">segredo<br>do mar</span>
+    </button>
+  </div>
+
+  <div class="dialog-box" id="dialogBox">
+    <div class="dialog-header">
+      <span class="dialog-face" id="dialogFace">💌</span>
+      <span class="dialog-name">LIPE diz...</span>
+    </div>
+    <div class="dialog-body">
+      <div class="dialog-text" id="dialogText"></div>
+      <span class="dialog-arrow">▼</span>
+    </div>
+    <button class="dialog-close-btn" onclick="closeDialog()">[ OK ] fechar</button>
+  </div>
+
+  <div class="final-section" id="finalSection">
+    <div class="pixel-divider"></div>
+    <div class="final-box">
+      <span class="final-heart">♥</span>
+      <div class="final-title">FIM DA MISSAO!</div>
+      <div class="final-msg">
+        voce desbloqueou todos<br>
+        os envelopinhos, Kakau.<br><br>
+        com carinho,<br>
+        <span style="color:var(--yellow)">— Lipe ★</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nav-item active">
+      <span class="nav-icon">💌</span>CARTA
+    </div>
+    <div class="nav-item">
+      <span class="nav-icon">♥</span>SOUL
+    </div>
+    <div class="nav-item">
+      <span class="nav-icon">★</span>SAVE
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const msgs = [
+    { icon: "💌", text: "Kakau, voce e muito especial pra mim. Eu quero me esforcar todos os dias pra ver voce feliz." },
+    { icon: "🌌", text: "O ceu me lembra voce." },
+    { icon: "⭐", text: "Curiosidade: 45% do meu tempo e pensando ou conversando com voce. Hehe." },
+    { icon: "🎮", text: "Oi! Amo jogar Roblox e Minecraft com voce. Melhor co-op do mundo!" },
+    { icon: "🗺️", text: "Eu desejo muito que a gente se encontre o mais rapido possivel." },
+    { icon: "🌊", text: "O mar me lembra voce." }
+  ];
+
+  let opened = new Set();
+  let typing = null;
+
+  function openMsg(i) {
+    const box = document.getElementById('dialogBox');
+    const face = document.getElementById('dialogFace');
+    const textEl = document.getElementById('dialogText');
+
+    face.textContent = msgs[i].icon;
+    textEl.textContent = '';
+    box.classList.add('active');
+    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    if (typing) clearInterval(typing);
+    const full = msgs[i].text;
+    let idx = 0;
+    typing = setInterval(() => {
+      textEl.textContent = full.slice(0, idx);
+      idx++;
+      if (idx > full.length) clearInterval(typing);
+    }, 40);
+
+    if (!opened.has(i)) {
+      opened.add(i);
+      document.getElementById('env' + i).classList.add('opened');
+      updateProgress();
+    }
+  }
+
+  function closeDialog() {
+    document.getElementById('dialogBox').classList.remove('active');
+  }
+
+  function updateProgress() {
+    const n = opened.size;
+    document.getElementById('progressBar').style.width = (n / 6 * 100) + '%';
+    document.getElementById('progressLabel').textContent = n + ' / 6';
+    if (n === 6) {
+      setTimeout(() => {
+        document.getElementById('finalSection').classList.add('visible');
+        document.getElementById('finalSection').scrollIntoView({ behavior: 'smooth' });
+      }, 800);
+    }
+  }
+
+  const sb = document.getElementById('starsBg');
+  for (let i = 0; i < 22; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = (Math.random() * 2) + 's';
+    s.style.animationDuration = (0.8 + Math.random() * 1.2) + 's';
+    sb.appendChild(s);
+  }
+</script>
+</body>
+</html>
